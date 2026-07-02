@@ -8,7 +8,7 @@ require (
 	github.com/maniartech/gotime v1.1.0
 	github.com/ncruces/zenity v0.10.14
 	github.com/rwilgaard/go-alfredutils v1.2.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	go.deanishe.net/fuzzy v1.0.0
 )
 
