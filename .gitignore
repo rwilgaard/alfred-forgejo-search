@@ -1,0 +1,6 @@
+.DS_Store
+workflow/prefs.plist
+workflow/alfred-forgejo-search
+workflow/alfred-forgejo-search-amd64
+workflow/alfred-forgejo-search-arm64
+*.alfredworkflow
