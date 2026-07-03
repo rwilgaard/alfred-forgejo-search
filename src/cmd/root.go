@@ -7,7 +7,7 @@ import (
 	"code.gitea.io/sdk/gitea"
 	aw "github.com/deanishe/awgo"
 	"github.com/deanishe/awgo/update"
-	"github.com/maniartech/gotime"
+	"github.com/maniartech/gotime/v2"
 	forgejo "github.com/rwilgaard/alfred-forgejo-search/src/internal/forgejo"
 	"github.com/rwilgaard/go-alfredutils/alfredutils"
 	"github.com/spf13/cobra"
