@@ -2,19 +2,20 @@ name: Release
 on:
   push:
     tags:
-      - '**'
-    branches-ignore:
-      - '**'
+      - v*
+
+permissions:
+  contents: read
 
 jobs:
   build-release:
     runs-on: macos-15
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
@@ -43,14 +44,16 @@ jobs:
   release:
     needs: build-release
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
 
@@ -60,7 +63,8 @@ jobs:
           name: universal-binary
           path: download
 
-      - run: |
+      - name: Copy binary into workflow
+        run: |
           test -f download/alfred-forgejo-search && cp download/alfred-forgejo-search workflow/alfred-forgejo-search
           chmod +x workflow/alfred-forgejo-search
           rm -rf download
