@@ -4,7 +4,7 @@ GO111MODULE  = on
 
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: all dep lint vet build clean package-alfred fmt release help
+.PHONY: all dep lint vet build clean package-alfred zip-alfred fmt release help
 
 all: build
 
@@ -18,7 +18,7 @@ release: ## Prepare and tag a new release (usage: make release VERSION=x.y.z)
 	@if [ -z "$(VERSION)" ]; then echo "Usage: make release VERSION=x.y.z"; exit 1; fi
 	@plutil -replace version -string "$(VERSION)" workflow/info.plist
 	@make package-alfred
-	@git add workflow/info.plist $(PROJECT_NAME).alfredworkflow
+	@git add workflow/info.plist
 	@git commit -m "chore: release v$(VERSION)"
 	@git tag "v$(VERSION)"
 	@git push origin main --tags
@@ -42,7 +42,9 @@ clean: ## Remove build artifacts
 	@rm -f workflow/$(PROJECT_NAME) workflow/$(PROJECT_NAME)-amd64 workflow/$(PROJECT_NAME)-arm64
 
 
-package-alfred: build universal-binary ## Build and package into .alfredworkflow
+package-alfred: build universal-binary zip-alfred ## Build and package into .alfredworkflow
+
+zip-alfred: ## Zip workflow dir into .alfredworkflow (requires existing binary)
 	@cd ./workflow && zip -r ../$(PROJECT_NAME).alfredworkflow ./*
 	@rm -f workflow/$(PROJECT_NAME)
 	@echo "Created $(PROJECT_NAME).alfredworkflow"
