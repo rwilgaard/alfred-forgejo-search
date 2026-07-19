@@ -5,7 +5,7 @@ go 1.26.4
 require (
 	code.gitea.io/sdk/gitea v0.25.1
 	github.com/deanishe/awgo v0.29.1
-	github.com/maniartech/gotime/v2 v2.0.3
+	github.com/maniartech/gotime/v2 v2.0.4
 	github.com/ncruces/zenity v0.10.14
 	github.com/rwilgaard/go-alfredutils v1.2.1
 	github.com/spf13/cobra v1.10.2
