@@ -6,7 +6,7 @@ require (
 	code.gitea.io/sdk/gitea v0.25.1
 	github.com/deanishe/awgo v0.29.1
 	github.com/maniartech/gotime/v2 v2.0.4
-	github.com/ncruces/zenity v0.10.14
+	github.com/ncruces/zenity v0.10.15
 	github.com/rwilgaard/go-alfredutils v1.3.0
 	github.com/spf13/cobra v1.10.2
 	go.deanishe.net/fuzzy v1.0.0
@@ -26,7 +26,7 @@ require (
 	github.com/spf13/pflag v1.0.10 // indirect
 	go.deanishe.net/env v0.5.1 // indirect
 	golang.org/x/crypto v0.53.0 // indirect
-	golang.org/x/image v0.43.0 // indirect
-	golang.org/x/sys v0.46.0 // indirect
-	golang.org/x/text v0.38.0 // indirect
+	golang.org/x/image v0.44.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/text v0.40.0 // indirect
 )
