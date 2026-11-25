@@ -1,6 +1,6 @@
 module github.com/rwilgaard/alfred-forgejo-search
 
-go 1.26.4
+go 1.27.4
 
 require (
 	code.gitea.io/sdk/gitea v0.25.1
@@ -8,6 +8,7 @@ require (
 	github.com/maniartech/gotime/v2 v2.0.4
 	github.com/ncruces/zenity v0.10.15
 	github.com/rwilgaard/go-alfredutils v1.3.0
+	github.com/rwilgaard/go-alfredutils/v2 v2.6.0
 	github.com/spf13/cobra v1.10.2
 	go.deanishe.net/fuzzy v1.0.0
 )
