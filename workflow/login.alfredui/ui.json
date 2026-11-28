@@ -1,0 +1,181 @@
+{
+  "variablesconfig": {
+    "auth_token": {
+      "scriptenv": true
+    },
+    "forgejo_url": {
+      "src": "variable",
+      "scriptenv": true
+    }
+  },
+  "window": {
+    "title": "Forgejo Search",
+    "padding": 16,
+    "size": {
+      "width": 420
+    },
+    "root": {
+      "type": "view",
+      "layout": "inline",
+      "direction": "vertical",
+      "spacing": 6,
+      "components": [
+        {
+          "type": "label",
+          "text": "Log in to Forgejo",
+          "font": {
+            "size": "large",
+            "weight": "bold"
+          }
+        },
+        {
+          "type": "label",
+          "text": "Repositories, issues and pull requests are read with an access token, stored in your Keychain.",
+          "colour": "secondaryLabelColor",
+          "linebreak": "wordwrap",
+          "constraints": {
+            "size": {
+              "width": 388
+            }
+          }
+        },
+        {
+          "type": "label",
+          "text": "{var:forgejo_url}",
+          "font": {
+            "size": "small",
+            "monospaced": "all"
+          },
+          "colour": "secondaryLabelColor"
+        },
+        {
+          "type": "label",
+          "text": "Access token",
+          "font": {
+            "size": "small"
+          },
+          "colour": "secondaryLabelColor"
+        },
+        {
+          "id": "token",
+          "type": "passwordfield",
+          "focus": true,
+          "events": [
+            {
+              "triggers": "actioned",
+              "action": [
+                {
+                  "type": "json",
+                  "variables": {
+                    "auth_token": "{value:token.text}"
+                  },
+                  "src": {
+                    "update": {
+                      "ids": {
+                        "save": {
+                          "enabled": false,
+                          "text": "Checking…"
+                        },
+                        "status": {
+                          "text": " "
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "script",
+                  "src": "../scripts/run.sh",
+                  "args": [
+                    "ui-auth"
+                  ],
+                  "async": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "view",
+          "layout": "border",
+          "components": [
+            {
+              "id": "save",
+              "type": "button",
+              "text": "Save",
+              "constraints": {
+                "region": "left"
+              },
+              "events": [
+                {
+                  "triggers": "actioned",
+                  "action": [
+                    {
+                      "type": "json",
+                      "variables": {
+                        "auth_token": "{value:token.text}"
+                      },
+                      "src": {
+                        "update": {
+                          "ids": {
+                            "save": {
+                              "enabled": false,
+                              "text": "Checking…"
+                            },
+                            "status": {
+                              "text": " "
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "script",
+                      "src": "../scripts/run.sh",
+                      "args": [
+                        "ui-auth"
+                      ],
+                      "async": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "text": "Create a token…",
+              "constraints": {
+                "region": "right"
+              },
+              "events": [
+                {
+                  "triggers": "actioned",
+                  "action": {
+                    "type": "json",
+                    "src": {
+                      "open": {
+                        "type": "url",
+                        "src": "{var:forgejo_url}/user/settings/applications"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "status",
+          "type": "label",
+          "text": " ",
+          "linebreak": "wordwrap",
+          "constraints": {
+            "size": {
+              "width": 388
+            }
+          }
+        }
+      ]
+    }
+  }
+}

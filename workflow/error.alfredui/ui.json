@@ -1,0 +1,212 @@
+{
+  "variablesconfig": {
+    "error_msg": {
+      "src": "variable",
+      "scriptenv": true,
+      "default": "Unknown error"
+    },
+    "forgejo_url": {
+      "src": "variable",
+      "scriptenv": true
+    },
+    "cache_age": {
+      "src": "variable",
+      "scriptenv": true,
+      "default": "360"
+    }
+  },
+  "window": {
+    "title": "Forgejo Search",
+    "padding": 16,
+    "size": {
+      "width": 480
+    },
+    "root": {
+      "type": "view",
+      "layout": "inline",
+      "direction": "vertical",
+      "spacing": 8,
+      "shortcuts": [
+        {
+          "shortcut": "↩",
+          "action": [
+            {
+              "type": "json",
+              "src": {
+                "update": {
+                  "relayout": true,
+                  "ids": {
+                    "retry": {
+                      "enabled": false,
+                      "text": "Refreshing…"
+                    },
+                    "status": {
+                      "text": "Refreshing the repository cache…",
+                      "colour": "secondaryLabelColor"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "script",
+              "src": "../scripts/run.sh",
+              "args": [
+                "ui-retry"
+              ],
+              "async": true
+            }
+          ]
+        },
+        {
+          "shortcut": "⌘L",
+          "action": {
+            "type": "json",
+            "src": {
+              "finish": {
+                "args": "login"
+              }
+            }
+          }
+        },
+        {
+          "shortcut": "⌘C",
+          "action": {
+            "type": "script",
+            "src": "../scripts/run.sh",
+            "args": [
+              "ui-copy-error"
+            ],
+            "async": true
+          }
+        }
+      ],
+      "components": [
+        {
+          "type": "label",
+          "text": "Refreshing the repository list failed",
+          "font": {
+            "size": "large",
+            "weight": "bold"
+          }
+        },
+        {
+          "id": "message",
+          "type": "label",
+          "text": "{var:error_msg}",
+          "linebreak": "wordwrap",
+          "font": {
+            "monospaced": "all"
+          },
+          "constraints": {
+            "size": {
+              "width": 448
+            }
+          }
+        },
+        {
+          "id": "status",
+          "type": "label",
+          "text": " ",
+          "font": {
+            "size": "small"
+          },
+          "colour": "secondaryLabelColor"
+        },
+        {
+          "type": "view",
+          "layout": "border",
+          "components": [
+            {
+              "type": "view",
+              "layout": "inline",
+              "direction": "horizontal",
+              "spacing": 6,
+              "constraints": {
+                "region": "left"
+              },
+              "components": [
+                {
+                  "id": "retry",
+                  "type": "button",
+                  "text": "Retry  ↩",
+                  "focus": true,
+                  "events": [
+                    {
+                      "triggers": "actioned",
+                      "action": [
+                        {
+                          "type": "json",
+                          "src": {
+                            "update": {
+                              "relayout": true,
+                              "ids": {
+                                "retry": {
+                                  "enabled": false,
+                                  "text": "Refreshing…"
+                                },
+                                "status": {
+                                  "text": "Refreshing the repository cache…",
+                                  "colour": "secondaryLabelColor"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "script",
+                          "src": "../scripts/run.sh",
+                          "args": [
+                            "ui-retry"
+                          ],
+                          "async": true
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "button",
+                  "text": "Log in again  ⌘L",
+                  "events": [
+                    {
+                      "triggers": "actioned",
+                      "action": {
+                        "type": "json",
+                        "src": {
+                          "finish": {
+                            "args": "login"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "text": "Copy  ⌘C",
+              "constraints": {
+                "region": "right"
+              },
+              "events": [
+                {
+                  "triggers": "actioned",
+                  "action": {
+                    "type": "script",
+                    "src": "../scripts/run.sh",
+                    "args": [
+                      "ui-copy-error"
+                    ],
+                    "async": true
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

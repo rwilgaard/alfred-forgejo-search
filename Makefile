@@ -4,7 +4,7 @@ GO111MODULE  = on
 VERSION      := $(shell plutil -extract version raw -o - workflow/info.plist)
 
 .EXPORT_ALL_VARIABLES:
-.PHONY: all dep fmt lint vet build clean universal-binary package-alfred zip-alfred release help
+.PHONY: all dep fmt lint vet build clean universal-binary dev package-alfred zip-alfred release help
 
 all: build
 
@@ -30,6 +30,10 @@ universal-binary: ## Combine arch binaries into universal binary
 
 clean: ## Remove build artifacts
 	@rm -f workflow/$(PROJECT_NAME) workflow/$(PROJECT_NAME)-amd64 workflow/$(PROJECT_NAME)-arm64
+
+dev: build universal-binary ## Build, install into Alfred in place, and reload
+	@go run github.com/rwilgaard/go-alfredutils/v2/cmd/alfred-dev install
+	@rm -f workflow/$(PROJECT_NAME)
 
 package-alfred: build universal-binary ## Build and package into .alfredworkflow
 	@rm -f $(PROJECT_NAME).alfredworkflow

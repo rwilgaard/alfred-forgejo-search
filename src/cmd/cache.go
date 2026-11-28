@@ -13,7 +13,10 @@ var cacheCmd = &cobra.Command{
 	RunE: func(_ *cobra.Command, _ []string) error {
 		log.Println("[cache] fetching repositories...")
 		if err := fetchAndCacheRepos(); err != nil {
-			return err
+			// Background job: Alfred isn't listening, so report through the
+			// error trigger instead of returning to FatalError.
+			wf.ReportError(fmt.Errorf("cache failed: %w", err))
+			return nil
 		}
 		log.Println("[cache] repositories fetched")
 		return nil
@@ -21,32 +24,17 @@ var cacheCmd = &cobra.Command{
 }
 
 func fetchAndCacheRepos() error {
-	client, err := setupClient()
+	client, err := setupClient(nil)
 	if err != nil {
-		msg := fmt.Sprintf("Cache failed: error retrieving credentials: %s", err)
-		if zerr := wf.Alfred.RunTrigger("error", msg); zerr != nil {
-			log.Printf("Alfred error trigger failed: %v", zerr)
-		}
-		return err
+		return fmt.Errorf("error retrieving credentials: %w", err)
 	}
-
 	repos, err := client.GetAllRepos()
 	if err != nil {
-		msg := fmt.Sprintf("Cache failed: could not fetch repos: %s", err)
-		if zerr := wf.Alfred.RunTrigger("error", msg); zerr != nil {
-			log.Printf("Alfred error trigger failed: %v", zerr)
-		}
-		return err
+		return fmt.Errorf("could not fetch repos: %w", err)
 	}
-
 	if err := wf.Cache.StoreJSON(repoCacheName, repos); err != nil {
-		msg := fmt.Sprintf("Cache failed: could not write cache file: %s", err)
-		if zerr := wf.Alfred.RunTrigger("error", msg); zerr != nil {
-			log.Printf("Alfred error trigger failed: %v", zerr)
-		}
-		return err
+		return fmt.Errorf("could not write cache file: %w", err)
 	}
-
 	return nil
 }
 
